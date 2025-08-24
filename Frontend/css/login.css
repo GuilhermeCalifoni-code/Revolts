@@ -1,0 +1,106 @@
+/* Fundo geral */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #000000, #0a0f1f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container central */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Caixa do login com efeito glass */
+.login-box {
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  border-radius: 15px;
+  padding: 40px;
+  width: 350px;
+  text-align: center;
+  color: #fff;
+}
+
+/* Logo */
+.logo img {
+  width: 80px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 5px #00ff99);
+}
+
+/* Inputs */
+.input-group {
+  margin: 15px 0;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.input-group input:focus {
+  border: 2px solid #00b0ff; /* Azul Ciano */
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Opções */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.options a {
+  color: #00b0ff;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Botão */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00b0ff, #7ed957);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Cadastro */
+.register {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register a {
+  color: #7ed957;
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
