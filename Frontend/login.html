@@ -12,12 +12,12 @@
         <img src="assets/logo.png" alt="Logo Revolts">
       </div>
       <h2>Faça seu login</h2>
-      <form>
+      <form id="loginForm">
         <div class="input-group">
-          <input type="email" placeholder="Email" required>
+          <input type="email" id="usuario" placeholder="Email" required>
         </div>
         <div class="input-group">
-          <input type="password" placeholder="Senha" required>
+          <input type="password" id="senha" placeholder="Senha" required>
         </div>
         <div class="options">
           <label><input type="checkbox"> Lembrar-me</label>
@@ -25,8 +25,11 @@
         </div>
         <button type="submit">Entrar</button>
       </form>
+
       <p class="register">Ainda não tem conta? <a href="#">Cadastre-se</a></p>
     </div>
   </div>
+  
+  <script src="js/login.js"></script>
 </body>
 </html>
