@@ -1,0 +1,114 @@
+/* Usa as mesmas variáveis de cor já definidas em dashboard.css */
+:root{
+  --orange: #f59e0b; /* laranja (pico) */
+  --green-strong: #16a34a;
+  --blue-strong: #0ea5e9;
+}
+
+/* Tabs */
+.tabs{
+  display:flex; gap:8px; flex-wrap:wrap; padding: 0 28px;
+}
+.tab{
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 180ms, box-shadow 180ms, background 180ms;
+}
+.tab:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+.tab--active{
+  background: rgba(59,130,246,0.15);
+  border-color: rgba(59,130,246,0.35);
+}
+
+/* Formulário (Simulador) */
+.card--xl{ padding: 24px; }
+.form-grid{
+  display:grid; gap:16px;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  align-items: end;
+}
+.form-field{ display:flex; flex-direction:column; gap:8px; }
+.form-field--full{ grid-column: 1 / -1; }
+.input, .select{
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.chips{
+  display:flex; gap:14px; flex-wrap:wrap;
+  color: var(--text-muted);
+}
+.chips input{ transform: translateY(1px); margin-right: 6px; }
+
+/* Botões */
+.btn{
+  border-radius: 10px;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 160ms, box-shadow 160ms, background 160ms;
+  font-weight: 600;
+}
+.btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+.btn--orange{
+  background: rgba(245,158,11,0.18);
+  border-color: rgba(245,158,11,0.45);
+  color: #fff;
+}
+.btn--orange:hover{ background: rgba(245,158,11,0.28); }
+
+/* Métricas */
+.metric{ min-height: 120px; }
+.metric .metric-value{ font-size: 28px; font-weight: 800; margin-top: 8px; }
+.metric--green{ border-left: 3px solid var(--green); }
+.metric--blue{ border-left: 3px solid var(--blue); }
+.metric--green-dark{ border-left: 3px solid var(--green-strong); }
+
+/* Destaques (Projeções) */
+.highlights{ margin-top: 16px; }
+.hl{
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px;
+  display:flex; flex-direction:column; gap:6px;
+}
+.hl strong{ font-size: 18px; }
+.hl--green{ box-shadow: inset 0 0 0 2px rgba(34,197,94,0.18); }
+.hl--blue{ box-shadow: inset 0 0 0 2px rgba(59,130,246,0.18); }
+.hl--green-dark{ box-shadow: inset 0 0 0 2px rgba(22,163,74,0.18); }
+
+/* Estatísticas (Métricas) */
+.stats-card{ display:flex; flex-direction:column; gap:8px; }
+.stats-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.stats-list li{ display:flex; align-items:center; justify-content:space-between; }
+.pill{
+  padding: 6px 10px; border-radius: 999px; border:1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  min-width: 120px; text-align:center;
+}
+.pill--green{ box-shadow: inset 0 0 0 999px rgba(34,197,94,0.18); }
+.pill--red{ box-shadow: inset 0 0 0 999px rgba(239,68,68,0.18); }
+.pill--blue{ box-shadow: inset 0 0 0 999px rgba(59,130,246,0.18); }
+
+/* Select na Topbar (Simulador) */
+.select-wrap .select{
+  background: var(--panel);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px){
+  .form-grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .form-grid{ grid-template-columns: 1fr; }
+}

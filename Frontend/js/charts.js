@@ -299,3 +299,5 @@ export const ChartsUtil = {
   renderBarsChart,
   renderLineChart
 };
+
+

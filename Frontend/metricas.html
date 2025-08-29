@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>EnergyControl — Métricas Avançadas</title>
+  <meta name="color-scheme" content="dark light" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/app-extra.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="theme-dark">
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" class="logo-icon">
+          <use href="assets/icons.svg#bolt"></use>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">EnergyControl</div>
+        <div class="brand-sub">Pro Dashboard</div>
+      </div>
+    </div>
+
+    <nav class="nav" role="navigation">
+      <a class="nav-item" href="dashboard.html">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#grid"></use>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item nav-item--active" href="metricas.html" aria-current="page">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#activity"></use>
+        </svg>
+        <span>Métricas</span>
+      </a>
+      <a class="nav-item" href="simulador.html">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#cpu"></use>
+        </svg>
+        <span>Simulador</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#trending-up"></use>
+        </svg>
+        <span>Previsões</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#file-text"></use>
+        </svg>
+        <span>Relatórios</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#settings"></use>
+        </svg>
+        <span>Configurações</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="status-dot" aria-hidden="true"></span>
+      <small>⚡ Sistema Online</small>
+    </div>
+  </aside>
+
+  <main class="content" role="main" aria-labelledby="page-title">
+    <header class="topbar">
+      <button class="btn-burger" id="btnBurger" aria-label="Abrir/fechar menu" tabindex="0">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons.svg#menu"></use>
+        </svg>
+      </button>
+      <div class="topbar-left">
+        <small class="top-sub">Métricas Avançadas</small>
+        <h1 class="top-title">Métricas Avançadas</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="badge-online" aria-live="polite">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#wifi"></use>
+          </svg>
+          <span>Online</span>
+        </div>
+      </div>
+    </header>
+
+    <h2 id="page-title" class="visually-hidden">Métricas Avançadas</h2>
+
+    <!-- Abas -->
+    <section class="cards-row" aria-label="Abas de métricas">
+      <div class="tabs">
+        <button class="tab tab--active" data-tab="t1">Consumo por Tempo</button>
+        <button class="tab" data-tab="t2">Por Dispositivo</button>
+        <button class="tab" data-tab="t3">Análise Comparativa</button>
+        <button class="tab" data-tab="t4">Tendências</button>
+      </div>
+    </section>
+
+    <section class="charts-row charts-2">
+      <article class="card card-chart">
+        <header class="chart-head">
+          <h3 class="chart-title" id="g1-title">Consumo por Hora — últimas 24h</h3>
+        </header>
+        <div class="chart-wrap">
+          <canvas id="g1"></canvas>
+        </div>
+      </article>
+
+      <article class="card card-chart">
+        <header class="chart-head">
+          <h3 class="chart-title" id="g2-title">Consumo Semanal (kWh)</h3>
+        </header>
+        <div class="chart-wrap">
+          <canvas id="g2"></canvas>
+        </div>
+      </article>
+    </section>
+
+    <section class="cards-row charts-2">
+      <article class="card stats-card">
+        <header class="info-head">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#bar-chart-2"></use>
+          </svg>
+          <h4>Resumo Estatístico</h4>
+        </header>
+
+        <ul class="stats-list">
+          <li><span>Consumo Médio/Hora</span><strong id="st-media" class="pill pill--blue">—</strong></li>
+          <li><span>Pico de Consumo</span><strong id="st-pico" class="pill pill--red">—</strong></li>
+          <li><span>Menor Consumo</span><strong id="st-min" class="pill pill--green">—</strong></li>
+          <li><span>Eficiência</span><strong id="st-efi" class="pill pill--green">—</strong></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <header class="chart-head">
+          <h3 class="chart-title">Distribuição por Dispositivo</h3>
+        </header>
+        <div class="chart-wrap">
+          <canvas id="g3"></canvas>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="js/metricas.js" type="module"></script>
+</body>
+</html>
