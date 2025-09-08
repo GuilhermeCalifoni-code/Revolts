@@ -29,16 +29,6 @@ body{
   font: 400 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Tema claro */
-body.theme-light{
-  --bg: #F3F4F6;
-  --panel: #FFFFFF;
-  --muted: #EEF2F7;
-  --text: #111827;
-  --text-muted: #6B7280;
-  /* acentos mantidos */
-}
-
 /* Foco visível */
 :focus-visible{
   outline: 2px solid rgba(59,130,246,0.6);

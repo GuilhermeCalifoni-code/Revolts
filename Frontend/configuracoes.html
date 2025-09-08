@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurações - EnergyControl Pro</title>
+<link rel="stylesheet" href="css/configuracoes.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ================= Sidebar ================= -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>EnergyControl Pro</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="simulador.html"><i class="fas fa-play-circle"></i> Simulador</a></li>
+            <li><a href="metricas.html"><i class="fas fa-chart-pie"></i> Métricas</a></li>
+            <li><a href="previsoes.html"><i class="fas fa-chart-line"></i> Previsões</a></li>
+            <li><a href="relatorios.html"><i class="fas fa-file-alt"></i> Relatórios</a></li>
+            <li><a href="configuracoes.html" class="active"><i class="fas fa-cog"></i> Configurações</a></li>
+        </ul>
+    </aside>
+
+    <!-- ================= Conteúdo Principal ================= -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+            <h1>Configurações</h1>
+            <p class="subtitle">Personalize sua experiência no EnergyControl Pro</p>
+        </header>
+
+        <!-- Menu Superior -->
+        <nav class="menu-superior">
+            <button class="menu-btn active" data-target="perfil">Perfil</button>
+            <button class="menu-btn" data-target="preferencias">Preferências</button>
+            <button class="menu-btn" data-target="limites">Limites</button>
+            <button class="menu-btn" data-target="notificacoes">Notificações</button>
+            <button class="menu-btn" data-target="seguranca">Segurança</button>
+        </nav>
+
+        <!-- ================= Seções ================= -->
+        <!-- Perfil -->
+        <section id="perfil" class="secao ativa">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-user"></i></div>
+                    <h2>Informações Pessoais</h2>
+                </div>
+                <p class="subtitle">Gerencie seus dados pessoais e informações de contato</p>
+                <div class="foto-perfil">
+                    <div class="placeholder"><i class="fas fa-user"></i></div>
+                    <div class="alterar-foto">
+                        <p>Alterar Foto</p>
+                        <span>JPG, PNG ou GIF. Máximo 2MB.</span>
+                        <input type="file" id="upload-foto" accept="image/*" hidden>
+                    </div>
+                </div>
+                <form id="form-perfil">
+                    <input type="text" placeholder="Nome Completo" name="nome">
+                    <input type="email" placeholder="Email" name="email">
+                    <input type="text" placeholder="Telefone" name="telefone">
+                    <input type="text" placeholder="Endereço (Cidade + Estado)" name="endereco">
+                </form>
+            </div>
+        </section>
+
+        <!-- Preferências -->
+        <section id="preferencias" class="secao">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-cog"></i></div>
+                    <h2>Exibição</h2>
+                </div>
+                <p class="subtitle">Configure como os dados são apresentados</p>
+                <form id="form-exibicao">
+                    <label>Unidade de Medida Preferida</label>
+                    <select name="unidade">
+                        <option value="kwh">KWh</option>
+                        <option value="r$">R$</option>
+                        <option value="ambos">Ambos (R$ e KWh)</option>
+                    </select>
+                    <label>Idioma</label>
+                    <select name="idioma">
+                        <option value="pt-br">Português (BR)</option>
+                        <option value="en-us">English (US)</option>
+                        <option value="es-es">Espanhol (ES)</option>
+                    </select>
+                </form>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-database"></i></div>
+                    <h2>Dados e Sincronização</h2>
+                </div>
+                <p class="subtitle">Configure como os dados são coletados e sincronizados</p>
+                <div class="toggle-group">
+                    <label><span>Sincronização Automática</span><input type="checkbox" class="toggle"></label>
+                    <label><span>Backup na Nuvem</span><input type="checkbox" class="toggle"></label>
+                    <label><span>Histórico Detalhado</span><input type="checkbox" class="toggle"></label>
+                </div>
+                <button id="salvar-preferencias" class="btn-verde">Salvar Alterações</button>
+            </div>
+        </section>
+
+        <!-- Limites -->
+        <section id="limites" class="secao">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-bolt"></i></div>
+                    <h2>Limites de Consumo</h2>
+                </div>
+                <p class="subtitle">Defina metas e limites para seu consumo de energia</p>
+                <label>Limite Mensal (KWh): <span id="limite-mensal-val">500</span></label>
+                <input type="range" min="100" max="1000" value="500" id="limite-mensal">
+                <label>Limite Diário (KWh): <span id="limite-diario-val">25</span></label>
+                <input type="range" min="5" max="50" value="25" id="limite-diario">
+            </div>
+        </section>
+
+        <!-- Notificações -->
+        <section id="notificacoes" class="secao">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-bell"></i></div>
+                    <h2>Notificações</h2>
+                </div>
+                <p class="subtitle">Gerencie alertas e notificações do sistema</p>
+                <div class="toggle-group">
+                    <label><span>Alertas de Consumo</span><input type="checkbox" class="toggle"></label>
+                    <label><span>Novidades do Sistema</span><input type="checkbox" class="toggle"></label>
+                    <label><span>Relatórios Semanais</span><input type="checkbox" class="toggle"></label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Segurança -->
+        <section id="seguranca" class="secao">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><i class="fas fa-lock"></i></div>
+                    <h2>Segurança</h2>
+                </div>
+                <p class="subtitle">Gerencie o acesso e proteção da sua conta</p>
+                <form id="form-seguranca">
+                    <label>Alterar Senha</label>
+                    <div class="senha-grupo">
+                        <input type="password" placeholder="Nova Senha" name="senha">
+                        <button type="button" class="btn-verde">Alterar</button>
+                    </div>
+                    <label>Autenticação em 2 etapas</label>
+                    <input type="checkbox" class="toggle" name="auth2">
+                </form>
+                <div class="dispositivos">
+                    <h3>Dispositivos Conectados</h3>
+                    <ul>
+                        <li>PC - Chrome <button class="btn-verde btn-pequeno">Desconectar</button></li>
+                        <li>Smartphone - Android <button class="btn-verde btn-pequeno">Desconectar</button></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+<script src="js/configuracoes.js"></script>
+</body>
+</html>
