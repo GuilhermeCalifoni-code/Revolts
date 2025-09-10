@@ -1,1 +1,0 @@
-# Rotas/endpoints da API

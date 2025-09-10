@@ -1,2 +1,0 @@
-# Dependências do Python
-# pip install flask 
