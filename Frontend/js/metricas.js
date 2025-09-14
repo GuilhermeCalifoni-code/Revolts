@@ -7,11 +7,6 @@ const hourly24 = [0.2,0.3,0.5,0.6,0.9,1.8,3.0,4.4,5.2,6.0,7.1,6.4,5.0,3.6,2.4,1.
 const week = [82, 96, 110, 105, 120, 134, 98]; // dom..sáb
 const devices = { 'Ar Cond.': 38, 'Geladeira': 22, 'Iluminação': 14, 'TV/Áudio': 11, 'Outros': 15 };
 
-// Sidebar mobile toggle (reutiliza teu padrão)
-$('#btnBurger')?.addEventListener('click', () => {
-  document.querySelector('.sidebar').classList.toggle('open');
-});
-
 // Gráficos
 let g1, g2, g3;
 

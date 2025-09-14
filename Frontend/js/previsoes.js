@@ -1,185 +1,136 @@
-// previsoes.js
+document.addEventListener('DOMContentLoaded', () => {
+  // =================================
+  // DADOS DE EXEMPLO (MOCK)
+  // =================================
+  const mockData = [
+    { mes: "Jan", consumo: 350.5, custo: 280.3, fatores: ["↑ Temperatura", "↑ Ar-condicionado"], confianca: 85, },
+    { mes: "Fev", consumo: 330.2, custo: 265.1, fatores: ["↑ Umidade", "↓ Iluminação"], confianca: 78, },
+    { mes: "Mar", consumo: 365.8, custo: 295.5, fatores: ["↑ Atividade industrial", "↑ Temperatura"], confianca: 90, },
+    { mes: "Abr", consumo: 310.0, custo: 250.0, fatores: ["↓ Climatização", "↑ Ventilação natural"], confianca: 82, },
+    { mes: "Mai", consumo: 380.7, custo: 310.8, fatores: ["↑ Temperatura", "↑ Refrigeração"], confianca: 88, },
+    { mes: "Jun", consumo: 300.0, custo: 245.0, fatores: ["↓ Atividade comercial", "↓ Iluminação"], confianca: 80, },
+    { mes: "Jul", consumo: 325.5, custo: 260.2, fatores: ["↓ Atividade industrial", "↑ Ventilação natural"], confianca: 75, },
+  ];
 
-// Dados de exemplo para 7 meses
-const previsoesMensais = [
-    {
-        mes: "Jan",
-        consumo: 350.5, // Exemplo: Mês com mais uso de ar condicionado
-        custo: 280.30,
-        fatores: ["↑ Temperatura", "↑ Uso de ar-condicionado"],
-        confianca: 85,
-    },
-    {
-        mes: "Fev",
-        consumo: 330.2,
-        custo: 265.10,
-        fatores: ["↑ Umidade", "↓ Uso de iluminação"],
-        confianca: 78,
-    },
-    {
-        mes: "Mar",
-        consumo: 365.8,
-        custo: 295.50,
-        fatores: ["↑ Atividade industrial", "↑ Temperatura"],
-        confianca: 90,
-    },
-    {
-        mes: "Abr",
-        consumo: 310.0,
-        custo: 250.00,
-        fatores: ["↓ Uso de climatização", "↑ Ventilação natural"],
-        confianca: 82,
-    },
-    {
-        mes: "Mai",
-        consumo: 380.7,
-        custo: 310.80,
-        fatores: ["↑ Temperatura", "↑ Uso de refrigeração"],
-        confianca: 88,
-    },
-    {
-        mes: "Jun",
-        consumo: 300.0,
-        custo: 245.00,
-        fatores: ["↓ Atividade comercial", "↓ Uso de iluminação"],
-        confianca: 80,
-    },
-    {
-        mes: "Jul",
-        consumo: 325.5,
-        custo: 260.20,
-        fatores: ["↓ Atividade industrial", "↑ Ventilação natural"],
-        confianca: 75,
-    },
-];
+  // =================================
+  // ESTADO E ELEMENTOS DO DOM
+  // =================================
 
-// --- Atualizar Cards de Resumo ---
-function atualizarCardsResumo(dados) {
+  let previsoesChart = null;
+
+  // Cores do tema (para consistência com o CSS)
+  const CORES = {
+    green: 'rgba(34, 197, 94, 0.9)',
+    amber: 'rgba(245, 158, 11, 0.9)',
+  };
+  /**
+   * Renderiza todos os componentes da página com os dados fornecidos.
+   * @param {Array} dados - O array de previsões mensais.
+   */
+  function render(dados) {
+    // 1. Renderiza os cards de resumo
     const consumoTotal = dados.reduce((sum, p) => sum + p.consumo, 0);
     const custoTotal = dados.reduce((sum, p) => sum + p.custo, 0);
     const confiancaMedia = dados.reduce((sum, p) => sum + p.confianca, 0) / dados.length;
 
-    document.getElementById("consumoTotal").textContent = `${consumoTotal.toFixed(1)} kWh`;
-    document.getElementById("custoTotal").textContent = `R$ ${custoTotal.toFixed(2)}`;
-    document.getElementById("confiancaMedia").textContent = `${confiancaMedia.toFixed(0)} %`;
-}
+    document.getElementById('consumoTotal').textContent = `${consumoTotal.toFixed(1)} kWh`;
+    document.getElementById('custoTotal').textContent = `R$ ${custoTotal.toFixed(2)}`;
+    document.getElementById('confiancaMedia').textContent = `${confiancaMedia.toFixed(0)} %`;
 
-// --- Inserir Cards Mensais ---
-const containerMensais = document.getElementById("cards-mensais");
+    // 2. Renderiza os cards de detalhes mensais
+    const containerMensais = document.getElementById("cards-mensais");
+    containerMensais.innerHTML = ''; // Limpa o container
+    dados.forEach((p) => {
+      const card = document.createElement("article");
+      card.className = "card card-diario";
+      card.innerHTML = `
+          <h4>📅 ${p.mes}</h4>
+          <p class="consumo">Consumo: ${p.consumo.toFixed(1)} kWh</p>
+          <p class="custo">Custo: R$ ${p.custo.toFixed(2)}</p>
+          <ul>${p.fatores.map((f) => `<li>${f}</li>`).join("")}</ul>
+          <div class="barra"><span style="width:${p.confianca}%;"></span></div>
+          <p class="confianca">${p.confianca}% confiança</p>
+        `;
+      containerMensais.appendChild(card);
+    });
 
-previsoesMensais.forEach((p) => {
-    const card = document.createElement("div");
-    card.classList.add("card-diario"); // Reutilizando a classe CSS do card diário
+    // 3. Renderiza o gráfico principal
+    renderChart(dados);
+    // Não há gráfico para renderizar nesta versão.
+  }
 
-    card.innerHTML = `
-        <h4>📅 ${p.mes}</h4>
-        <p class="consumo">Consumo: ${p.consumo.toFixed(1)} kWh</p>
-        <p class="custo">Custo: R$ ${p.custo.toFixed(2)}</p>
-        <ul>${p.fatores.map((f) => `<li>${f}</li>`).join("")}</ul>
-        <div class="barra"><span style="width:${p.confianca}%;"></span></div>
-        <p class="confianca">${p.confianca}% confiança</p>
-    `;
+  /**
+   * Renderiza o gráfico de previsões.
+   * @param {Array} dados - O array de previsões mensais.
+   */
+  function renderChart(dados) {
+    const ctx = document.getElementById('chartPrevisoes').getContext('2d');
+    const labels = dados.map(p => p.mes);
+    const consumoData = dados.map(p => p.consumo);
+    const custoData = dados.map(p => p.custo);
 
-    containerMensais.appendChild(card);
-});
+    if (previsoesChart) {
+      previsoesChart.destroy();
+    }
 
-// --- Configuração do Gráfico ---
-const ctx = document.getElementById("chartPrevisoes").getContext("2d");
-new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: previsoesMensais.map((p) => p.mes),
+    previsoesChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
         datasets: [
-            {
-                label: "Consumo (kWh)",
-                data: previsoesMensais.map((p) => p.consumo),
-                borderColor: "#00ff88", // Verde vibrante
-                backgroundColor: "rgba(0, 255, 136, 0.2)", // Verde com transparência
-                fill: true, // Preenchimento abaixo da linha
-                tension: 0.4, // Curva suave
-                pointRadius: 5, // Raio do ponto
-                pointHoverRadius: 8, // Raio do ponto ao passar o mouse
-                pointBackgroundColor: '#fff', // Cor de fundo do ponto
-                pointBorderColor: '#00ff88', // Cor da borda do ponto
-            },
-            {
-                label: "Custo (R$)",
-                data: previsoesMensais.map((p) => p.custo),
-                borderColor: "#facc15", // Amarelo vibrante
-                backgroundColor: "rgba(250, 204, 21, 0.2)", // Amarelo com transparência
-                fill: true, // Preenchimento abaixo da linha
-                tension: 0.4, // Curva suave
-                pointRadius: 5, // Raio do ponto
-                pointHoverRadius: 8, // Raio do ponto ao passar o mouse
-                pointBackgroundColor: '#fff', // Cor de fundo do ponto
-                pointBorderColor: '#facc15', // Cor da borda do ponto
-            },
+          {
+            label: 'Consumo (kWh)',
+            data: consumoData,
+            borderColor: CORES.green,
+            backgroundColor: CORES.green.replace('0.9', '0.1'),
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: 'Custo (R$)',
+            data: custoData,
+            borderColor: CORES.amber,
+            backgroundColor: CORES.amber.replace('0.9', '0.1'),
+            tension: 0.4,
+            fill: true,
+          },
         ],
-    },
-    options: {
+      },
+      options: {
         responsive: true,
-        maintainAspectRatio: false, // Essencial para controlar altura com CSS
-        plugins: {
-            legend: {
-                display: false, // Esconde a legenda padrão do Chart.js pois temos uma customizada
-            },
-            tooltip: {
-                mode: 'index',
-                intersect: false,
-                callbacks: {
-                    label: function(context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        if (context.parsed.y !== null) {
-                            if (context.dataset.label.includes('Custo')) {
-                                label += `R$ ${context.parsed.y.toFixed(2)}`;
-                            } else {
-                                label += `${context.parsed.y.toFixed(1)} kWh`;
-                            }
-                        }
-                        return label;
-                    }
-                }
-            }
-        },
+        maintainAspectRatio: false,
         scales: {
-            x: {
-                ticks: {
-                    color: "#ccc", // Cor do texto dos eixos X
-                    font: {
-                        size: 12 // Tamanho da fonte dos eixos X
-                    }
-                },
-                grid: {
-                    color: "rgba(255, 255, 255, 0.1)", // Linhas de grade X mais sutis
-                    drawBorder: false // Remove a borda do eixo X
-                }
-            },
-            y: {
-                ticks: {
-                    color: "#ccc", // Cor do texto dos eixos Y
-                    font: {
-                        size: 12 // Tamanho da fonte dos eixos Y
-                    },
-                    // Formatar os ticks do eixo Y se necessário (ex: adicionar 'kWh' ou 'R$')
-                    callback: function(value, index, ticks) {
-                        // Este callback é um pouco mais complexo para misturar unidades
-                        // Se a primeira série for kWh e a segunda R$, podemos fazer uma distinção
-                        // Para simplificar, vamos apenas retornar o valor
-                        return value;
-                    }
-                },
-                grid: {
-                    color: "rgba(255, 255, 255, 0.1)", // Linhas de grade Y mais sutis
-                    drawBorder: false // Remove a borda do eixo Y
-                },
-                beginAtZero: true // Garante que o eixo Y comece em 0
-            },
+          y: { 
+            beginAtZero: true 
+          },
         },
-    },
-});
+        plugins: {
+          legend: {
+            display: false, // A legenda customizada já está no HTML
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += context.dataset.label.includes('Custo') ? `R$ ${context.parsed.y.toFixed(2)}` : `${context.parsed.y.toFixed(1)} kWh`;
+                }
+                return label;
+              }
+            }
+          }
+        },
+      },
+    });
+  }
 
-// Chamar a função para atualizar os cards de resumo ao carregar a página
-atualizarCardsResumo(previsoesMensais);
+  // =================================
+  // INICIALIZAÇÃO
+  // =================================
+  render(mockData);
+});

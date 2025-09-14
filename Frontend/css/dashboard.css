@@ -254,6 +254,7 @@ canvas{
 .legend-bullet--current{ box-shadow: inset 0 0 0 999px rgba(59,130,246,0.35); }
 .legend-bullet--prev{ box-shadow: inset 0 0 0 999px rgba(255,255,255,0.18); }
 .legend-bullet--line{ box-shadow: inset 0 0 0 999px rgba(34,197,94,0.35); border-radius: 999px; }
+.legend-bullet--amber{ box-shadow: inset 0 0 0 999px rgba(245,158,11,0.35); border-radius: 999px; }
 
 /* Tooltip do gráfico */
 .chart-tooltip{

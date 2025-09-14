@@ -19,7 +19,6 @@ const MOCK = {
 };
 
 const STORAGE_KEY = 'energy:dashboard:data';
-const THEME_KEY = 'energy:theme';
 
 function ensureData(){
   if(!localStorage.getItem(STORAGE_KEY)){
@@ -39,28 +38,6 @@ function formatCurrency(n){
 function setLive(msg){
   const el = document.getElementById('srLive');
   if(el){ el.textContent = msg; }
-}
-
-function applyThemeFromStorage(){
-  const saved = localStorage.getItem(THEME_KEY);
-  if(saved){
-    document.body.classList.toggle('theme-light', saved === 'light');
-    document.body.classList.toggle('theme-dark', saved !== 'light');
-    return;
-  }
-  // padrão: se preferir dark, usar dark
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.body.classList.toggle('theme-dark', prefersDark);
-  document.body.classList.toggle('theme-light', !prefersDark);
-}
-
-function toggleTheme(){
-  const isLight = document.body.classList.contains('theme-light');
-  const next = isLight ? 'dark' : 'light';
-  document.body.classList.toggle('theme-light', !isLight);
-  document.body.classList.toggle('theme-dark', isLight);
-  localStorage.setItem(THEME_KEY, next);
-  setLive(`Tema ${next === 'light' ? 'claro' : 'escuro'} ativado`);
 }
 
 /* Renderização dos cards */
@@ -109,7 +86,7 @@ function renderCards(data){
 /* Gráficos */
 let mensalChart, horaChart;
 
-function renderCharts(data){
+function initCharts(data) {
   const c1 = document.getElementById('chartMensal');
   const c2 = document.getElementById('chartHora');
 
@@ -117,13 +94,28 @@ function renderCharts(data){
   const mensalAtual = data.monthlyBars; // Jan..Abr
   // anterior: leve variação para efeito visual
   const mensalAnterior = mensalAtual.map((v,i)=> Math.max(0, Math.round(v * (0.95 + Math.random()*0.1))));
-
   const labelsMes = ['Jan','Fev','Mar','Abr'];
 
   mensalChart = renderBarsChart(c1, [
     { label: 'Atual', data: mensalAtual },
     { label: 'Mês anterior', data: mensalAnterior }
   ], { labels: labelsMes, max: 600 });
+
+  updateCharts(data); // Chama a atualização para o gráfico de linha
+}
+
+function updateCharts(data) {
+  const c2 = document.getElementById('chartHora');
+
+  // Atualiza gráfico de barras
+  const mensalAtual = data.monthlyBars;
+  const mensalAnterior = mensalAtual.map((v,i)=> Math.max(0, Math.round(v * (0.95 + Math.random()*0.1))));
+  if (mensalChart) {
+    mensalChart.update([{ label: 'Atual', data: mensalAtual }, { label: 'Mês anterior', data: mensalAnterior }]);
+  }
+
+  // Destruir instância antiga do gráfico de linha para reanimar
+  if (horaChart) horaChart.destroy();
 
   // Linha: 24h (amostrar 12 pontos para eixo X 00h..20h)
   const hourly = data.hourly24;
@@ -154,7 +146,7 @@ function refreshData(){
   data.billEstimate.status = data.billEstimate.cost > 400 ? 'above' : 'ok';
 
   // barras (Jan..Abr)
-  data.monthlyBars = data.monthlyBars.map(v => Math.round(Math.max(60, vary(v))));
+  data.monthlyBars = data.monthlyBars.map(v => Math.round(clampNum(vary(v, 0.05), 350, 550)));
 
   // hourly 24
   data.hourly24 = data.hourly24.map(v => +(Math.max(0.05, vary(v))).toFixed(2));
@@ -167,7 +159,7 @@ function refreshData(){
 
   saveData(data);
   renderCards(data);
-  renderCharts(data); // reanima
+  updateCharts(data); // Apenas atualiza os gráficos
   announceUpdate();
   detectHighConsumption(data);
   document.getElementById('lastUpdate').textContent = 'Última atualização: agora';
@@ -208,37 +200,23 @@ function announceUpdate(){
   setLive('Dados do dashboard atualizados.');
 }
 
-/* Sidebar mobile */
-function setupSidebar(){
-  const btn = document.getElementById('btnBurger');
-  const sidebar = document.querySelector('.sidebar');
-  btn?.addEventListener('click', ()=>{
-    sidebar.classList.toggle('open');
-  });
-}
-
 /* Inicialização */
 function init(){
-  applyThemeFromStorage();
-
   const data = ensureData();
   // se acabou de criar, garantir persistência
   saveData(data);
 
   renderCards(data);
-  renderCharts(data);
+  initCharts(data); // Inicializa os gráficos
   detectHighConsumption(data);
 
-  // Botões
   document.getElementById('btnRefresh').addEventListener('click', refreshData);
-  document.getElementById('btnThemeToggle').addEventListener('click', toggleTheme);
 
   // ação de recarregar do card 1 (apenas delega ao refresh)
   document.querySelectorAll('.card-action').forEach(btn=>{
     btn.addEventListener('click', refreshData);
   });
 
-  setupSidebar();
 }
 
 window.addEventListener('DOMContentLoaded', init);

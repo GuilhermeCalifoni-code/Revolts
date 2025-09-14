@@ -72,8 +72,15 @@ function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
 
 /* Gráfico de Barras Agrupadas */
 export function renderBarsChart(canvas, datasets, opts={}){
-  const rectCss = canvas.getBoundingClientRect();
-  const { ctx } = setupHiDPICanvas(canvas, rectCss.width, rectCss.height);
+  const ctx = canvas.getContext('2d');
+  // A configuração HiDPI só deve rodar UMA VEZ.
+  // A cada refresh, apenas limpamos e redesenhamos.
+  if (!canvas.hasBeenSetup) {
+    setupHiDPICanvas(canvas, canvas.clientWidth, canvas.clientHeight);
+    canvas.hasBeenSetup = true;
+  }
+
+  const rectCss = { width: canvas.clientWidth, height: canvas.clientHeight };
   const padding = {left: 48, right: 12, top: 18, bottom: 28};
   const inner = { x: padding.left, y: padding.top, w: rectCss.width - padding.left - padding.right, h: rectCss.height - padding.top - padding.bottom };
 
@@ -85,9 +92,43 @@ export function renderBarsChart(canvas, datasets, opts={}){
   const yTicksVals = [0, 150, 300, 450, 600];
   const yTicks = yTicksVals.map(v => v/max); // normalizado
 
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawGrid(ctx, inner, { xTicks: [], yTicks, xLabels: labels, yMaxLabel: max });
 
   // Barras
+  drawBars(ctx, inner, datasets, labels, max);
+
+  // Tooltip
+  const tip = createTooltip(canvas.parentElement);
+  const hitZones = getHitZones(inner, datasets, labels, max);
+
+  canvas.onmousemove = (ev)=>{
+    const rect = canvas.getBoundingClientRect();
+    const mx = ev.clientX - rect.left;
+    const my = ev.clientY - rect.top;
+    const hit = hitZones.find(z => mx>=z.x && mx<=z.x+z.w && my>=z.y && my<=z.y+z.h);
+    if(hit){
+      tip.show(ev.clientX - rect.left, hit.y, `<strong>${hit.series}</strong><br>${hit.label}: ${hit.value.toFixed(0)} kWh`);
+    }else{
+      tip.hide();
+    }
+  };
+  canvas.onmouseleave = ()=> tip.hide();
+
+  return {
+    update(newDatasets){
+      // Apenas limpa e redesenha as barras, sem reconfigurar o canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid(ctx, inner, { xTicks: [], yTicks, xLabels: labels, yMaxLabel: max });
+      drawBars(ctx, inner, newDatasets, labels, max);
+      // Atualiza as zonas de hit para o tooltip
+      const newHitZones = getHitZones(inner, newDatasets, labels, max);
+      hitZones.splice(0, hitZones.length, ...newHitZones);
+    }
+  };
+}
+
+function drawBars(ctx, inner, datasets, labels, max) {
   const groupCount = labels.length;
   const seriesCount = datasets.length;
   const groupWidth = inner.w / groupCount;
@@ -100,8 +141,6 @@ export function renderBarsChart(canvas, datasets, opts={}){
   const barBorder = 'rgba(255,255,255,0.20)';
   const barCurrent = 'rgba(59,130,246,0.35)'; // --blue 35%
   const barPrev    = 'rgba(255,255,255,0.18)';
-
-  const hitZones = []; // para tooltip/hover
 
   for(let g=0; g<groupCount; g++){
     for(let s=0; s<seriesCount; s++){
@@ -125,7 +164,26 @@ export function renderBarsChart(canvas, datasets, opts={}){
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
+    }
+  }
+}
 
+function getHitZones(inner, datasets, labels, max) {
+  const hitZones = [];
+  const groupCount = labels.length;
+  const seriesCount = datasets.length;
+  const groupWidth = inner.w / groupCount;
+  const barGap = 6;
+  const innerGroupWidth = groupWidth - 16;
+  const barWidth = (innerGroupWidth - (seriesCount-1)*barGap) / seriesCount;
+
+  for(let g=0; g<groupCount; g++){
+    for(let s=0; s<seriesCount; s++){
+      const val = datasets[s].data[g];
+      const ratio = clamp(val/max, 0, 1);
+      const x = inner.x + g*groupWidth + 8 + s*(barWidth + barGap);
+      const y = inner.y + inner.h - ratio*inner.h;
+      const h = ratio*inner.h;
       hitZones.push({
         x, y, w: barWidth, h,
         label: labels[g],
@@ -134,27 +192,7 @@ export function renderBarsChart(canvas, datasets, opts={}){
       });
     }
   }
-
-  // Tooltip
-  const tip = createTooltip(canvas.parentElement);
-  canvas.onmousemove = (ev)=>{
-    const rect = canvas.getBoundingClientRect();
-    const mx = ev.clientX - rect.left;
-    const my = ev.clientY - rect.top;
-    const hit = hitZones.find(z => mx>=z.x && mx<=z.x+z.w && my>=z.y && my<=z.y+z.h);
-    if(hit){
-      tip.show(ev.clientX - rect.left, hit.y, `<strong>${hit.series}</strong><br>${hit.label}: ${hit.value.toFixed(0)} kWh`);
-    }else{
-      tip.hide();
-    }
-  };
-  canvas.onmouseleave = ()=> tip.hide();
-
-  return {
-    update(newDatasets){
-      renderBarsChart(canvas, newDatasets, opts);
-    }
-  };
+  return hitZones;
 }
 
 /* Curva suave (Catmull-Rom -> Bezier) */
@@ -299,5 +337,3 @@ export const ChartsUtil = {
   renderBarsChart,
   renderLineChart
 };
-
-

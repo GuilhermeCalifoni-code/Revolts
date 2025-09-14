@@ -114,11 +114,6 @@ function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 
 // Eventos
 document.addEventListener('DOMContentLoaded', ()=>{
-  // abrir/fechar sidebar no mobile
-  document.getElementById('btnBurger')?.addEventListener('click', ()=>{
-    document.querySelector('.sidebar').classList.toggle('open');
-  });
-
   initCharts();
   document.getElementById('btnSimular').addEventListener('click', simular);
   // simulação inicial

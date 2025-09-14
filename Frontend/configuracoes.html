@@ -1,170 +1,205 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Configurações - EnergyControl Pro</title>
-<link rel="stylesheet" href="css/configuracoes.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações - EnergyControl Pro</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/app-extra.css" />
+  </head>
+  <body class="theme-dark">
     <!-- ================= Sidebar ================= -->
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>EnergyControl Pro</h2>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" class="logo-icon">
+            <use href="assets/icons.svg#bolt"></use>
+          </svg>
         </div>
-        <ul class="sidebar-menu">
-            <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="simulador.html"><i class="fas fa-play-circle"></i> Simulador</a></li>
-            <li><a href="metricas.html"><i class="fas fa-chart-pie"></i> Métricas</a></li>
-            <li><a href="previsoes.html"><i class="fas fa-chart-line"></i> Previsões</a></li>
-            <li><a href="relatorios.html"><i class="fas fa-file-alt"></i> Relatórios</a></li>
-            <li><a href="configuracoes.html" class="active"><i class="fas fa-cog"></i> Configurações</a></li>
-        </ul>
+        <div class="brand-text">
+          <div class="brand-title">EnergyControl</div>
+          <div class="brand-sub">Pro Dashboard</div>
+        </div>
+      </div>
+      <nav class="nav" role="navigation">
+        <a class="nav-item" href="dashboard.html">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#grid"></use>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" href="metricas.html">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#activity"></use>
+          </svg>
+          <span>Métricas</span>
+        </a>
+        <a class="nav-item" href="simulador.html">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#cpu"></use>
+          </svg>
+          <span>Simulador</span>
+        </a>
+        <a class="nav-item" href="previsoes.html">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#trending-up"></use>
+          </svg>
+          <span>Previsões</span>
+        </a>
+        <a class="nav-item" href="relatorios.html">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#file-text"></use>
+          </svg>
+          <span>Relatórios</span>
+        </a>
+        <a class="nav-item nav-item--active" href="configuracoes.html" aria-current="page">
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#settings"></use>
+          </svg>
+          <span>Configurações</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <small>Sistema Online</small>
+      </div>
     </aside>
 
     <!-- ================= Conteúdo Principal ================= -->
-    <div class="main-content">
-        <!-- Topbar -->
-        <header class="topbar">
-            <h1>Configurações</h1>
-            <p class="subtitle">Personalize sua experiência no EnergyControl Pro</p>
-        </header>
+    <main class="content" role="main">
+      <!-- Topbar -->
+      <header class="topbar">
+        <button
+          class="btn-burger"
+          id="btnBurger"
+          aria-label="Abrir/fechar menu"
+          tabindex="0"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons.svg#menu"></use>
+          </svg>
+        </button>
+        <div class="topbar-left">
+          <small class="top-sub">Personalize sua experiência no EnergyControl Pro</small>
+          <h1 class="top-title">Configurações</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="badge-online" aria-live="polite">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="assets/icons.svg#wifi"></use>
+            </svg>
+            <span>Online</span>
+          </div>
+        </div>
+      </header>
 
-        <!-- Menu Superior -->
-        <nav class="menu-superior">
-            <button class="menu-btn active" data-target="perfil">Perfil</button>
-            <button class="menu-btn" data-target="preferencias">Preferências</button>
-            <button class="menu-btn" data-target="limites">Limites</button>
-            <button class="menu-btn" data-target="notificacoes">Notificações</button>
-            <button class="menu-btn" data-target="seguranca">Segurança</button>
-        </nav>
+      <!-- Menu Superior -->
+      <section class="cards-row">
+        <div class="tabs">
+          <button class="tab tab--active" data-target="perfil">Perfil</button>
+          <button class="tab" data-target="preferencias">Preferências</button>
+          <button class="tab" data-target="limites">Limites</button>
+          <button class="tab" data-target="notificacoes">Notificações</button>
+          <button class="tab" data-target="seguranca">Segurança</button>
+        </div>
+      </section>
 
-        <!-- ================= Seções ================= -->
-        <!-- Perfil -->
-        <section id="perfil" class="secao ativa">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-user"></i></div>
-                    <h2>Informações Pessoais</h2>
-                </div>
-                <p class="subtitle">Gerencie seus dados pessoais e informações de contato</p>
-                <div class="foto-perfil">
-                    <div class="placeholder"><i class="fas fa-user"></i></div>
-                    <div class="alterar-foto">
-                        <p>Alterar Foto</p>
-                        <span>JPG, PNG ou GIF. Máximo 2MB.</span>
-                        <input type="file" id="upload-foto" accept="image/*" hidden>
-                    </div>
-                </div>
-                <form id="form-perfil">
-                    <input type="text" placeholder="Nome Completo" name="nome">
-                    <input type="email" placeholder="Email" name="email">
-                    <input type="text" placeholder="Telefone" name="telefone">
-                    <input type="text" placeholder="Endereço (Cidade + Estado)" name="endereco">
-                </form>
+      <!-- ================= Seções ================= -->
+      <!-- Perfil -->
+      <section id="perfil" class="cards-row secao ativa">
+        <article class="card">
+          <header class="card-head">
+            <h3 class="card-title">Informações Pessoais</h3>
+          </header>
+          <p class="subtitle">Gerencie seus dados pessoais e informações de contato.</p>
+          <div class="foto-perfil">
+            <div class="placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24"><use href="assets/icons.svg#user"></use></svg>
             </div>
-        </section>
-
-        <!-- Preferências -->
-        <section id="preferencias" class="secao">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-cog"></i></div>
-                    <h2>Exibição</h2>
-                </div>
-                <p class="subtitle">Configure como os dados são apresentados</p>
-                <form id="form-exibicao">
-                    <label>Unidade de Medida Preferida</label>
-                    <select name="unidade">
-                        <option value="kwh">KWh</option>
-                        <option value="r$">R$</option>
-                        <option value="ambos">Ambos (R$ e KWh)</option>
-                    </select>
-                    <label>Idioma</label>
-                    <select name="idioma">
-                        <option value="pt-br">Português (BR)</option>
-                        <option value="en-us">English (US)</option>
-                        <option value="es-es">Espanhol (ES)</option>
-                    </select>
-                </form>
+            <div>
+              <p>Alterar Foto</p>
+              <span>JPG, PNG ou GIF. Máximo 2MB.</span>
+              <input type="file" id="upload-foto" accept="image/*" hidden />
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-database"></i></div>
-                    <h2>Dados e Sincronização</h2>
-                </div>
-                <p class="subtitle">Configure como os dados são coletados e sincronizados</p>
-                <div class="toggle-group">
-                    <label><span>Sincronização Automática</span><input type="checkbox" class="toggle"></label>
-                    <label><span>Backup na Nuvem</span><input type="checkbox" class="toggle"></label>
-                    <label><span>Histórico Detalhado</span><input type="checkbox" class="toggle"></label>
-                </div>
-                <button id="salvar-preferencias" class="btn-verde">Salvar Alterações</button>
-            </div>
-        </section>
+          </div>
+          <form id="form-perfil" class="form-grid">
+            <label class="form-field"><span>Nome Completo</span><input type="text" placeholder="Seu nome" name="nome" class="input" /></label>
+            <label class="form-field"><span>Email</span><input type="email" placeholder="seu@email.com" name="email" class="input" /></label>
+            <label class="form-field"><span>Telefone</span><input type="text" placeholder="(11) 99999-9999" name="telefone" class="input" /></label>
+            <label class="form-field"><span>Endereço</span><input type="text" placeholder="Cidade, Estado" name="endereco" class="input" /></label>
+          </form>
+        </article>
+      </section>
 
-        <!-- Limites -->
-        <section id="limites" class="secao">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-bolt"></i></div>
-                    <h2>Limites de Consumo</h2>
-                </div>
-                <p class="subtitle">Defina metas e limites para seu consumo de energia</p>
-                <label>Limite Mensal (KWh): <span id="limite-mensal-val">500</span></label>
-                <input type="range" min="100" max="1000" value="500" id="limite-mensal">
-                <label>Limite Diário (KWh): <span id="limite-diario-val">25</span></label>
-                <input type="range" min="5" max="50" value="25" id="limite-diario">
-            </div>
-        </section>
+      <!-- Preferências -->
+      <section id="preferencias" class="cards-row cards-2 secao">
+        <article class="card">
+          <header class="card-head"><h3 class="card-title">Exibição</h3></header>
+          <p class="subtitle">Configure como os dados são apresentados.</p>
+          <form id="form-exibicao" class="form-grid">
+            <label class="form-field"><span>Unidade de Medida</span><select name="unidade" class="select"><option value="kwh">KWh</option><option value="r$">R$</option><option value="ambos">Ambos</option></select></label>
+            <label class="form-field"><span>Idioma</span><select name="idioma" class="select"><option value="pt-br">Português (BR)</option><option value="en-us">English (US)</option></select></label>
+          </form>
+        </article>
+        <article class="card">
+          <header class="card-head"><h3 class="card-title">Dados e Sincronização</h3></header>
+          <p class="subtitle">Configure a coleta e sincronização de dados.</p>
+          <div class="toggle-group">
+            <label><span>Sincronização Automática</span><input type="checkbox" class="toggle" name="sync" checked /></label>
+            <label><span>Backup na Nuvem</span><input type="checkbox" class="toggle" name="backup" checked /></label>
+            <label><span>Histórico Detalhado</span><input type="checkbox" class="toggle" name="history" /></label>
+          </div>
+        </article>
+      </section>
 
-        <!-- Notificações -->
-        <section id="notificacoes" class="secao">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-bell"></i></div>
-                    <h2>Notificações</h2>
-                </div>
-                <p class="subtitle">Gerencie alertas e notificações do sistema</p>
-                <div class="toggle-group">
-                    <label><span>Alertas de Consumo</span><input type="checkbox" class="toggle"></label>
-                    <label><span>Novidades do Sistema</span><input type="checkbox" class="toggle"></label>
-                    <label><span>Relatórios Semanais</span><input type="checkbox" class="toggle"></label>
-                </div>
-            </div>
-        </section>
+      <!-- Limites -->
+      <section id="limites" class="cards-row secao">
+        <article class="card">
+          <header class="card-head"><h3 class="card-title">Limites de Consumo</h3></header>
+          <p class="subtitle">Defina metas e limites para seu consumo de energia.</p>
+          <form id="form-limites">
+            <label>Limite Mensal (KWh): <span id="limite-mensal-val">500</span></label>
+            <input type="range" min="100" max="1000" value="500" id="limite-mensal" name="limiteMensal" />
+            <label>Limite Diário (KWh): <span id="limite-diario-val">25</span></label>
+            <input type="range" min="5" max="50" value="25" id="limite-diario" name="limiteDiario" />
+          </form>
+        </article>
+      </section>
 
-        <!-- Segurança -->
-        <section id="seguranca" class="secao">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><i class="fas fa-lock"></i></div>
-                    <h2>Segurança</h2>
-                </div>
-                <p class="subtitle">Gerencie o acesso e proteção da sua conta</p>
-                <form id="form-seguranca">
-                    <label>Alterar Senha</label>
-                    <div class="senha-grupo">
-                        <input type="password" placeholder="Nova Senha" name="senha">
-                        <button type="button" class="btn-verde">Alterar</button>
-                    </div>
-                    <label>Autenticação em 2 etapas</label>
-                    <input type="checkbox" class="toggle" name="auth2">
-                </form>
-                <div class="dispositivos">
-                    <h3>Dispositivos Conectados</h3>
-                    <ul>
-                        <li>PC - Chrome <button class="btn-verde btn-pequeno">Desconectar</button></li>
-                        <li>Smartphone - Android <button class="btn-verde btn-pequeno">Desconectar</button></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+      <!-- Notificações -->
+      <section id="notificacoes" class="cards-row secao">
+        <article class="card">
+          <header class="card-head"><h3 class="card-title">Notificações</h3></header>
+          <p class="subtitle">Gerencie alertas e notificações do sistema.</p>
+          <div class="toggle-group">
+            <label><span>Alertas de Consumo</span><input type="checkbox" class="toggle" name="notifConsumo" checked /></label>
+            <label><span>Novidades do Sistema</span><input type="checkbox" class="toggle" name="notifNovidades" /></label>
+            <label><span>Relatórios Semanais</span><input type="checkbox" class="toggle" name="notifRelatorios" checked /></label>
+          </div>
+        </article>
+      </section>
 
-    </div>
+      <!-- Segurança -->
+      <section id="seguranca" class="cards-row secao">
+        <article class="card">
+          <header class="card-head"><h3 class="card-title">Segurança</h3></header>
+          <p class="subtitle">Gerencie o acesso e proteção da sua conta.</p>
+          <form id="form-seguranca" class="form-grid">
+            <label class="form-field"><span>Alterar Senha</span><input type="password" placeholder="Nova Senha" name="senha" class="input" /></label>
+            <label class="form-field"><span>Confirmar Senha</span><input type="password" placeholder="Confirme a nova senha" class="input" /></label>
+          </form>
+          <div class="toggle-group">
+            <label><span>Autenticação em 2 Etapas (2FA)</span><input type="checkbox" class="toggle" name="auth2" /></label>
+          </div>
+        </article>
+      </section>
 
-<script src="js/configuracoes.js"></script>
-</body>
+      <section class="cards-row">
+        <button id="salvar-preferencias" class="btn btn--green">Salvar Alterações</button>
+      </section>
+    </main>
+
+    <script src="js/configuracoes.js"></script>
+    <script src="js/ui.js" defer></script>
+  </body>
 </html>

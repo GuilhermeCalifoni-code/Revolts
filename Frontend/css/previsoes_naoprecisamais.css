@@ -194,7 +194,7 @@ body {
 }
 
 .legend-bullet--line {
-  background: var(--green);
+  background: var(--amber);
 }
 
 .legend-bullet--amber {

@@ -1,184 +1,257 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>EnergyControl — Simulador</title>
-  <meta name="color-scheme" content="dark light" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <link rel="stylesheet" href="css/app-extra.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-</head>
-<body class="theme-dark">
-  <!-- Sidebar -->
-  <aside class="sidebar" aria-label="Navegação principal">
-    <div class="brand">
-      <div class="logo" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" class="logo-icon">
-          <use href="assets/icons.svg#bolt"></use>
-        </svg>
-      </div>
-      <div class="brand-text">
-        <div class="brand-title">EnergyControl</div>
-        <div class="brand-sub">Pro Dashboard</div>
-      </div>
-    </div>
-
-    <nav class="nav" role="navigation">
-      <a class="nav-item" href="dashboard.html">
-        <svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#grid"></use></svg>
-        <span>Dashboard</span>
-      </a>
-      <a class="nav-item" href="metricas.html">
-        <svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#activity"></use></svg>
-        <span>Métricas</span>
-      </a>
-      <a class="nav-item nav-item--active" href="simulador.html" aria-current="page">
-        <svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#cpu"></use></svg>
-        <span>Simulador</span>
-      </a>
-      <a class="nav-item" href="#"><svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#trending-up"></use></svg><span>Previsões</span></a>
-      <a class="nav-item" href="#"><svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#file-text"></use></svg><span>Relatórios</span></a>
-      <a class="nav-item" href="#"><svg class="nav-ico" width="18" height="18"><use href="assets/icons.svg#settings"></use></svg><span>Configurações</span></a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <span class="status-dot" aria-hidden="true"></span>
-      <small>⚡ Sistema Online</small>
-    </div>
-  </aside>
-
-  <main class="content" role="main" aria-labelledby="page-title">
-    <header class="topbar">
-      <button class="btn-burger" id="btnBurger" aria-label="Abrir/fechar menu" tabindex="0">
-        <svg width="22" height="22" viewBox="0 0 24 24"><use href="assets/icons.svg#menu"></use></svg>
-      </button>
-      <div class="topbar-left">
-        <small class="top-sub">Simulador de Economia de Energia</small>
-        <h1 class="top-title">Simulador de Economia de Energia</h1>
-        <small class="top-sub">Compare cenários e descubra quanto você pode economizar</small>
-      </div>
-      <div class="topbar-right">
-        <div class="select-wrap">
-          <select id="periodo" class="select">
-            <option value="24h">24h</option>
-            <option value="7d">7 dias</option>
-            <option value="30d" selected>30 dias</option>
-            <option value="12m">12 meses</option>
-          </select>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>EnergyControl — Simulador</title>
+    <meta name="color-scheme" content="dark light" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/app-extra.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body class="theme-dark">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Navegação principal">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" class="logo-icon">
+            <use href="assets/icons.svg#bolt"></use>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">EnergyControl</div>
+          <div class="brand-sub">Pro Dashboard</div>
         </div>
       </div>
-    </header>
 
-    <h2 id="page-title" class="visually-hidden">Simulador</h2>
+      <nav class="nav" role="navigation">
+        <a class="nav-item" href="dashboard.html">
+          <svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#grid"></use>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" href="metricas.html">
+          <svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#activity"></use>
+          </svg>
+          <span>Métricas</span>
+        </a>
+        <a
+          class="nav-item nav-item--active"
+          href="simulador.html"
+          aria-current="page"
+        >
+          <svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#cpu"></use>
+          </svg>
+          <span>Simulador</span>
+        </a>
+        <a class="nav-item" href="previsoes.html"
+          ><svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#trending-up"></use></svg
+          ><span>Previsões</span></a
+        >
+        <a class="nav-item" href="relatorios.html"
+          ><svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#file-text"></use></svg
+          ><span>Relatórios</span></a
+        >
+        <a class="nav-item" href="configuracoes.html"
+          ><svg class="nav-ico" width="18" height="18">
+            <use href="assets/icons.svg#settings"></use></svg
+          ><span>Configurações</span></a
+        >
+      </nav>
 
-    <!-- Sessão 1 – Configuração -->
-    <section class="cards-row">
-      <article class="card card--xl">
-        <header class="card-head">
-          <h3 class="card-title">Configuração da Simulação</h3>
-        </header>
-        <form id="formSim" class="form-grid" autocomplete="off">
-          <label class="form-field">
-            <span>Dispositivo</span>
-            <select id="inpDispositivo" class="input">
-              <option>Ar Condicionado</option>
-              <option>Geladeira</option>
-              <option>TV</option>
-              <option>Iluminação</option>
-              <option>Máquina de Lavar</option>
-              <option>Computador</option>
+      <div class="sidebar-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <small>Sistema Online</small>
+      </div>
+    </aside>
+
+    <main class="content" role="main" aria-labelledby="page-title">
+      <header class="topbar">
+        <button
+          class="btn-burger"
+          id="btnBurger"
+          aria-label="Abrir/fechar menu"
+          tabindex="0"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24">
+            <use href="assets/icons.svg#menu"></use>
+          </svg>
+        </button>
+        <div class="topbar-left">
+          <small class="top-sub">Simulador de Economia de Energia</small>
+          <h1 class="top-title">Simulador de Economia de Energia</h1>
+          <small class="top-sub"
+            >Compare cenários e descubra quanto você pode economizar</small
+          >
+        </div>
+        <div class="topbar-right">
+          <div class="select-wrap">
+            <select id="periodo" class="select">
+              <option value="24h">24h</option>
+              <option value="7d">7 dias</option>
+              <option value="30d" selected>30 dias</option>
+              <option value="12m">12 meses</option>
             </select>
-          </label>
-
-          <label class="form-field">
-            <span>Tempo de uso atual (h/dia)</span>
-            <input id="inpAtual" class="input" type="number" min="0" max="24" step="0.1" value="8" />
-          </label>
-
-          <label class="form-field">
-            <span>Tempo de uso desejado (h/dia)</span>
-            <input id="inpDesejado" class="input" type="number" min="0" max="24" step="0.1" value="5" />
-          </label>
-
-          <label class="form-field form-field--full">
-            <span>Ação simulada</span>
-            <div class="chips">
-              <label><input type="checkbox" value="eficiente" checked> Substituir por modelo eficiente</label>
-              <label><input type="checkbox" value="reduzir"> Reduzir uso</label>
-              <label><input type="checkbox" value="pico"> Desligar em horários de pico</label>
-            </div>
-          </label>
-
-          <button id="btnSimular" type="button" class="btn btn--orange">Simular Economia</button>
-        </form>
-      </article>
-    </section>
-
-    <!-- Sessão 2 – Resultados -->
-    <section class="cards-row cards-3">
-      <article class="card metric metric--green">
-        <header class="info-head">
-          <svg width="18" height="18"><use href="assets/icons.svg#zap"></use></svg>
-          <h4>Economia de Energia</h4>
-        </header>
-        <p class="metric-value" id="mEnergia">— kWh/mês</p>
-      </article>
-
-      <article class="card metric metric--blue">
-        <header class="info-head">
-          <svg width="18" height="18"><use href="assets/icons.svg#dollar-sign"></use></svg>
-          <h4>Economia Financeira</h4>
-        </header>
-        <p class="metric-value" id="mFinanceiro">—/mês</p>
-      </article>
-
-      <article class="card metric metric--green-dark">
-        <header class="info-head">
-          <svg width="18" height="18"><use href="assets/icons.svg#globe"></use></svg>
-          <h4>Impacto Ambiental</h4>
-        </header>
-        <p class="metric-value" id="mCO2">— kg CO₂/mês</p>
-      </article>
-    </section>
-
-    <!-- Sessão 3 – Gráficos Comparativos -->
-    <section class="charts-row charts-2">
-      <article class="card card-chart">
-        <header class="chart-head"><h3 class="chart-title">Consumo Atual vs Simulado</h3></header>
-        <div class="chart-wrap"><canvas id="cBar"></canvas></div>
-      </article>
-
-      <article class="card card-chart">
-        <header class="chart-head"><h3 class="chart-title">Participação no Consumo</h3></header>
-        <div class="chart-wrap"><canvas id="cDonut"></canvas></div>
-      </article>
-    </section>
-
-    <!-- Sessão 4 – Projeções Futuras -->
-    <section class="cards-row">
-      <article class="card card-chart">
-        <header class="chart-head"><h3 class="chart-title">Projeção de Economia (12 meses)</h3></header>
-        <div class="chart-wrap"><canvas id="cLine"></canvas></div>
-
-        <div class="cards-3 highlights">
-          <div class="hl hl--green">
-            <span>Economia acumulada em 1 ano</span>
-            <strong id="hFinanceiro">—</strong>
-          </div>
-          <div class="hl hl--blue">
-            <span>Redução total de energia</span>
-            <strong id="hEnergia">—</strong>
-          </div>
-          <div class="hl hl--green-dark">
-            <span>CO₂ não emitido</span>
-            <strong id="hCO2">—</strong>
           </div>
         </div>
-      </article>
-    </section>
-  </main>
+      </header>
 
-  <script src="js/simulador.js" type="module"></script>
-</body>
+      <h2 id="page-title" class="visually-hidden">Simulador</h2>
+
+      <!-- Sessão 1 – Configuração -->
+      <section class="cards-row">
+        <article class="card card--xl">
+          <header class="card-head">
+            <h3 class="card-title">Configuração da Simulação</h3>
+          </header>
+          <form id="formSim" class="form-grid" autocomplete="off">
+            <label class="form-field">
+              <span>Dispositivo</span>
+              <select id="inpDispositivo" class="input">
+                <option>Ar Condicionado</option>
+                <option>Geladeira</option>
+                <option>TV</option>
+                <option>Iluminação</option>
+                <option>Máquina de Lavar</option>
+                <option>Computador</option>
+              </select>
+            </label>
+
+            <label class="form-field">
+              <span>Tempo de uso atual (h/dia)</span>
+              <input
+                id="inpAtual"
+                class="input"
+                type="number"
+                min="0"
+                max="24"
+                step="0.1"
+                value="8"
+              />
+            </label>
+
+            <label class="form-field">
+              <span>Tempo de uso desejado (h/dia)</span>
+              <input
+                id="inpDesejado"
+                class="input"
+                type="number"
+                min="0"
+                max="24"
+                step="0.1"
+                value="5"
+              />
+            </label>
+
+            <label class="form-field form-field--full">
+              <span>Ação simulada</span>
+              <div class="chips">
+                <label
+                  ><input type="checkbox" value="eficiente" checked />
+                  Substituir por modelo eficiente</label
+                >
+                <label
+                  ><input type="checkbox" value="reduzir" /> Reduzir uso</label
+                >
+                <label
+                  ><input type="checkbox" value="pico" /> Desligar em horários
+                  de pico</label
+                >
+              </div>
+            </label>
+
+            <button id="btnSimular" type="button" class="btn btn--orange">
+              Simular Economia
+            </button>
+          </form>
+        </article>
+      </section>
+
+      <!-- Sessão 2 – Resultados -->
+      <section class="cards-row cards-3">
+        <article class="card metric metric--green">
+          <header class="info-head">
+            <svg width="18" height="18">
+              <use href="assets/icons.svg#zap"></use>
+            </svg>
+            <h4>Economia de Energia</h4>
+          </header>
+          <p class="metric-value" id="mEnergia">— kWh/mês</p>
+        </article>
+
+        <article class="card metric metric--blue">
+          <header class="info-head">
+            <svg width="18" height="18">
+              <use href="assets/icons.svg#dollar-sign"></use>
+            </svg>
+            <h4>Economia Financeira</h4>
+          </header>
+          <p class="metric-value" id="mFinanceiro">—/mês</p>
+        </article>
+
+        <article class="card metric metric--green-dark">
+          <header class="info-head">
+            <svg width="18" height="18">
+              <use href="assets/icons.svg#globe"></use>
+            </svg>
+            <h4>Impacto Ambiental</h4>
+          </header>
+          <p class="metric-value" id="mCO2">— kg CO₂/mês</p>
+        </article>
+      </section>
+
+      <!-- Sessão 3 – Gráficos Comparativos -->
+      <section class="charts-row charts-2">
+        <article class="card card-chart">
+          <header class="chart-head">
+            <h3 class="chart-title">Consumo Atual vs Simulado</h3>
+          </header>
+          <div class="chart-wrap"><canvas id="cBar"></canvas></div>
+        </article>
+
+        <article class="card card-chart">
+          <header class="chart-head">
+            <h3 class="chart-title">Participação no Consumo</h3>
+          </header>
+          <div class="chart-wrap"><canvas id="cDonut"></canvas></div>
+        </article>
+      </section>
+
+      <!-- Sessão 4 – Projeções Futuras -->
+      <section class="cards-row">
+        <article class="card card-chart">
+          <header class="chart-head">
+            <h3 class="chart-title">Projeção de Economia (12 meses)</h3>
+          </header>
+          <div class="chart-wrap"><canvas id="cLine"></canvas></div>
+
+          <div class="cards-3 highlights">
+            <div class="hl hl--green">
+              <span>Economia acumulada em 1 ano</span>
+              <strong id="hFinanceiro">—</strong>
+            </div>
+            <div class="hl hl--blue">
+              <span>Redução total de energia</span>
+              <strong id="hEnergia">—</strong>
+            </div>
+            <div class="hl hl--green-dark">
+              <span>CO₂ não emitido</span>
+              <strong id="hCO2">—</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="js/simulador.js" type="module"></script>
+    <script src="js/ui.js" defer></script>
+  </body>
 </html>
