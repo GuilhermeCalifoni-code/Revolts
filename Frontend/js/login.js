@@ -1,24 +1,57 @@
-// js/login.js
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("loginForm");
+// Frontend/js/login.js
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // impede recarregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("▶️ [JS] Página de login carregada. Script login.js em execução.");
 
-    // Usuário e senha fixos para teste enquanto não temos um banco de dados 
-    const usuarioFixo = "admin@revolts.com";
-    const senhaFixa = "1234";
+    // CORREÇÃO: Usando o ID "loginForm" do seu HTML
+    const loginForm = document.getElementById('loginForm');
 
-    // Captura os valores digitados
-    const usuario = document.getElementById("usuario").value;
-    const senha = document.getElementById("senha").value;
-
-    // Validação simples
-    if (usuario === usuarioFixo && senha === senhaFixa) {
-      alert("Login bem-sucedido 🚀");
-      window.location.href = "dashboard.html"; // redireciona para a Home que no caso é o dashboard.html
-    } else {
-      alert("Usuário ou senha inválidos ❌");
+    if (!loginForm) {
+        console.error("❌ [JS] Erro crítico: Formulário com id='loginForm' não encontrado no HTML.");
+        return;
     }
-  });
+
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        console.log("▶️ [JS] Formulário de login enviado pelo usuário.");
+
+        // CORREÇÃO: Usando os IDs "usuario" e "senha" do seu HTML
+        const email = document.getElementById('usuario').value;
+        const senha = document.getElementById('senha').value;
+
+        const data = {
+            email: email,
+            senha: senha
+        };
+        console.log("▶️ [JS] Enviando para a API (/api/login) os seguintes dados:", data);
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            console.log(`◀️ [JS] Resposta recebida do servidor com status: ${response.status}`);
+
+            if (response.ok) {
+                console.log("✅ [JS] Login bem-sucedido! Redirecionando para o dashboard...");
+                window.location.href = 'dashboard.html';
+            } else {
+                const errorData = await response.json();
+                console.error(`❌ [JS] Falha no login: ${errorData.error}`);
+                
+                // MUDANÇA: Usando alert() para mostrar o erro, já que não há um campo de erro no HTML
+                alert(errorData.error || 'Erro ao tentar fazer login.');
+            }
+
+        } catch (error) {
+            console.error('❌ [JS] Erro de rede ou na requisição:', error);
+            
+            // MUDANÇA: Usando alert() para mostrar o erro de rede
+            alert('Não foi possível conectar ao servidor. Tente novamente mais tarde.');
+        }
+    });
 });

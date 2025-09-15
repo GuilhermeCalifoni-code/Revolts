@@ -12,10 +12,6 @@
     <link rel="stylesheet" href="css/app-extra.css" />
   </head>
   <body class="theme-dark">
-    <!-- Ícones (sprite) -->
-    <!-- Dica: mantenha o arquivo em assets/icons.svg e use <use href="assets/icons.svg#id"> -->
-    <!-- Se preferir inline, você pode colar o conteúdo do icons.svg aqui dentro de um <svg style="display:none"> -->
-    <!-- Sidebar -->
     <aside class="sidebar" aria-label="Navegação principal">
       <div class="brand">
         <div class="logo" aria-hidden="true">
@@ -31,73 +27,37 @@
 
       <nav class="nav" role="navigation">
         <a class="nav-item nav-item--active" href="#" aria-current="page">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#grid"></use>
           </svg>
           <span>Dashboard</span>
         </a>
         <a class="nav-item" href="metricas.html">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" >
             <use href="assets/icons.svg#activity"></use>
           </svg>
           <span>Métricas</span>
         </a>
         <a class="nav-item" href="simulador.html">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#cpu"></use>
           </svg>
           <span>Simulador</span>
         </a>
         <a class="nav-item" href="previsoes.html">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#trending-up"></use>
           </svg>
           <span>Previsões</span>
         </a>
         <a class="nav-item" href="relatorios.html">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#file-text"></use>
           </svg>
           <span>Relatórios</span>
         </a>
         <a class="nav-item" href="configuracoes.html">
-          <svg
-            class="nav-ico"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg class="nav-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#settings"></use>
           </svg>
           <span>Configurações</span>
@@ -112,12 +72,7 @@
 
     <main class="content" role="main" aria-labelledby="page-title">
       <header class="topbar">
-        <button
-          class="btn-burger"
-          id="btnBurger"
-          aria-label="Abrir/fechar menu"
-          tabindex="0"
-        >
+        <button class="btn-burger" id="btnBurger" aria-label="Abrir/fechar menu" tabindex="0">
           <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <use href="assets/icons.svg#menu"></use>
           </svg>
@@ -134,34 +89,17 @@
             <span>Online</span>
           </div>
           <small id="lastUpdate">Última atualização: agora</small>
-          <button
-            id="btnRefresh"
-            class="icon-btn"
-            aria-label="Atualizar dados"
-            title="Atualizar (⟳)"
-            tabindex="0"
-          >
+          <button id="btnRefresh" class="icon-btn" aria-label="Atualizar dados" title="Atualizar (⟳)" tabindex="0">
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <use href="assets/icons.svg#refresh"></use>
             </svg>
           </button>
-          <button
-            id="btnThemeToggle"
-            class="icon-btn"
-            aria-label="Alternar tema"
-            title="Alternar tema"
-            tabindex="0"
-          >
+          <button id="btnThemeToggle" class="icon-btn" aria-label="Alternar tema" title="Alternar tema" tabindex="0">
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <use href="assets/icons.svg#moon"></use>
             </svg>
           </button>
-          <div
-            class="icon-bell"
-            role="button"
-            aria-label="Notificações"
-            tabindex="0"
-          >
+          <div class="icon-bell" role="button" aria-label="Notificações" tabindex="0">
             <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
               <use href="assets/icons.svg#bell"></use>
             </svg>
@@ -172,134 +110,86 @@
 
       <h2 id="page-title" class="visually-hidden">Dashboard de Energia</h2>
 
-      <!-- 4 cards principais -->
       <section class="cards-row cards-4" aria-label="Métricas principais">
-        <!-- Consumo Hoje -->
         <article class="card card--accent-green" aria-live="polite">
           <header class="card-head">
             <h3 class="card-title">Consumo Hoje</h3>
             <button class="card-action" aria-label="Recarregar consumo de hoje">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="assets/icons.svg#refresh"></use>
               </svg>
             </button>
           </header>
           <div class="card-body">
             <div class="metric">
-              <span id="todayKwh" class="metric-value">24.5 kWh</span>
-              <span id="todayCost" class="metric-sub">R$ 18,75</span>
+              <span id="todayCost" class="metric-value">R$ 0,00</span>
+              <span id="todayKwh" class="metric-sub">0.0 kWh</span>
             </div>
             <div class="progress">
-              <div
-                id="todayProgress"
-                class="progress-bar"
-                style="width: 65%"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="65"
-              ></div>
+              <div id="todayProgress" class="progress-bar" style="width: 0%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
             </div>
           </div>
           <footer class="card-foot">
-            <small id="todayFoot">65% da meta diária</small>
+            <small id="todayFoot">0% da meta diária</small>
           </footer>
         </article>
 
-        <!-- Consumo Mensal -->
         <article class="card card--accent-blue" aria-live="polite">
           <header class="card-head">
             <h3 class="card-title">Consumo Mensal</h3>
             <div class="card-action" role="img" aria-label="Calendário">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="assets/icons.svg#calendar"></use>
               </svg>
             </div>
           </header>
           <div class="card-body">
             <div class="metric">
-              <span id="monthKwh" class="metric-value">485.2 kWh</span>
-              <span id="monthCost" class="metric-sub">R$ 371,54</span>
+              <span id="monthCost" class="metric-value">R$ 0,00</span>
+              <span id="monthKwh" class="metric-sub">0.0 kWh</span>
             </div>
             <div class="compare">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="assets/icons.svg#caret-down"></use>
               </svg>
-              <span id="monthDelta" class="compare-text compare-text--green"
-                >▼ 5,4% vs mês anterior</span
-              >
+              <span id="monthDelta" class="compare-text">--% vs mês anterior</span>
             </div>
           </div>
         </article>
 
-        <!-- Fatura Estimada -->
         <article class="card card--accent-amber" aria-live="polite">
           <header class="card-head">
             <h3 class="card-title">Fatura Estimada</h3>
             <div class="card-action" role="img" aria-label="Cifrão">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="assets/icons.svg#dollar-sign"></use>
               </svg>
             </div>
           </header>
           <div class="card-body">
             <div class="metric">
-              <span id="billCost" class="metric-value">R$ 425,80</span>
+              <span id="billCost" class="metric-value">R$ 0,00</span>
               <span class="metric-sub">Projeção para este mês</span>
             </div>
-            <div
-              id="billChip"
-              class="chip chip--danger"
-              role="status"
-              aria-live="polite"
-            >
-              Acima da meta
+            <div id="billChip" class="chip" role="status" aria-live="polite">
+              --
             </div>
           </div>
         </article>
 
-        <!-- Status do Sistema -->
         <article class="card card--accent-purple" aria-live="polite">
           <header class="card-head">
             <h3 class="card-title">Status do Sistema</h3>
             <div class="card-action" role="img" aria-label="Status">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="assets/icons.svg#shield"></use>
               </svg>
             </div>
           </header>
           <div class="card-body">
             <div class="metric">
-              <span id="sysStatus" class="metric-value metric-value--green"
-                >Online</span
-              >
-              <span id="sysSub" class="metric-sub"
-                >Todos os sensores ativos</span
-              >
+              <span id="sysStatus" class="metric-value metric-value--green">Online</span>
+              <span id="sysSub" class="metric-sub">Todos os sensores ativos</span>
             </div>
           </div>
           <footer class="card-foot">
@@ -311,53 +201,38 @@
         </article>
       </section>
 
-      <!-- 2 gráficos -->
-      <section
-        class="charts-row charts-2"
-        aria-label="Gráficos"
-        aria-live="polite"
-      >
+      <section class="charts-row charts-2" aria-label="Gráficos" aria-live="polite">
         <article class="card card-chart">
           <header class="chart-head">
             <h3 class="chart-title">
-              Comparação Mensal — Consumo atual vs mês anterior (kWh)
+              Custo Mensal — Últimos 6 meses (R$)
             </h3>
           </header>
           <div class="chart-wrap">
-            <canvas
-              id="chartMensal"
-              aria-label="Gráfico de comparação mensal"
-              role="img"
-            ></canvas>
+            <canvas id="chartMensal" aria-label="Gráfico de comparação mensal" role="img"></canvas>
+            
             <div class="chart-legend">
-              <span class="legend-bullet legend-bullet--current"></span> Atual
-              <span class="legend-bullet legend-bullet--prev"></span> Mês
-              anterior
+              <span class="legend-bullet legend-bullet--current"></span> Custo (R$)
             </div>
+
           </div>
         </article>
 
         <article class="card card-chart">
           <header class="chart-head">
             <h3 class="chart-title">
-              Consumo por Hora — Padrão de consumo nas últimas 24h (kW)
+              Consumo por Hora — Padrão de consumo do dia (kW)
             </h3>
           </header>
           <div class="chart-wrap">
-            <canvas
-              id="chartHora"
-              aria-label="Gráfico de consumo por hora"
-              role="img"
-            ></canvas>
+            <canvas id="chartHora" aria-label="Gráfico de consumo por hora" role="img"></canvas>
             <div class="chart-legend">
-              <span class="legend-bullet legend-bullet--line"></span> Consumo
-              (kW)
+              <span class="legend-bullet legend-bullet--line"></span> Consumo (kW)
             </div>
           </div>
         </article>
       </section>
 
-      <!-- 3 cards informativos -->
       <section class="info-row cards-3" aria-label="Informações adicionais">
         <article class="info-card info-card--green">
           <header class="info-head">
@@ -366,9 +241,7 @@
             </svg>
             <h4>Economia Detectada</h4>
           </header>
-          <p id="infoEconomy">
-            Você economizou 5.3% este mês comparado ao anterior. Continue assim!
-          </p>
+          <p id="infoEconomy">Calculando...</p>
         </article>
         <article class="info-card info-card--amber">
           <header class="info-head">
@@ -377,10 +250,7 @@
             </svg>
             <h4>Horário de Pico</h4>
           </header>
-          <p id="infoPeak">
-            Maior consumo entre 18h–22h. Considere usar aparelhos fora desse
-            período.
-          </p>
+          <p id="infoPeak">Calculando...</p>
         </article>
         <article class="info-card info-card--blue">
           <header class="info-head">
@@ -389,33 +259,23 @@
             </svg>
             <h4>Meta Mensal</h4>
           </header>
-          <p id="infoGoal">
-            Faltam R$ 54,20 para atingir sua meta de economia de R$ 400/mês.
-          </p>
+          <p id="infoGoal">Calculando...</p>
         </article>
       </section>
     </main>
 
-    <!-- Toast -->
-    <div
-      id="toast"
-      class="toast"
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-    >
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
       <div class="toast-content">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <use href="assets/icons.svg#alert-triangle"></use>
         </svg>
-        <span id="toastMsg">Consumo alto detectado às 18:00</span>
+        <span id="toastMsg">Consumo alto detectado</span>
         <button id="toastBtn" class="toast-btn" aria-label="Ver detalhe">
           ver detalhe
         </button>
       </div>
     </div>
 
-    <!-- Região para anúncios de atualização (screen readers) -->
     <div id="srLive" class="sr-only" aria-live="polite"></div>
 
     <script src="js/charts.js" type="module"></script>
