@@ -1,8 +1,6 @@
-# app.py (Versão Final, Completa e Consolidada)
+# app.py (Versão "Obra de Arte" - Final, Consolidada e 100% Completa)
 
-import os
-import psycopg2
-import calendar
+import os, psycopg2, calendar
 from psycopg2.extras import RealDictCursor
 from flask import Flask, jsonify, request, send_from_directory
 from flask_bcrypt import Bcrypt
@@ -18,14 +16,13 @@ TARIFA_SP_KWH = 0.92
 CO2_KG_POR_KWH = 0.072
 
 # ===================================================================
-#           FUNÇÕES DE LÓGICA DO BANCO DE DADOS
+#           FUNÇÕES DE LÓGICA
 # ===================================================================
 
 def get_db_connection():
     """Função central e segura para conectar ao banco de dados."""
     try:
-        conn = psycopg2.connect(host=os.getenv("SB_HOST"), port=os.getenv("SB_PORT"), dbname=os.getenv("SB_DATABASE"), user=os.getenv("SB_USER"), password=os.getenv("SB_PASSWORD"))
-        return conn
+        return psycopg2.connect(host=os.getenv("SB_HOST"), port=os.getenv("SB_PORT"), dbname=os.getenv("SB_DATABASE"), user=os.getenv("SB_USER"), password=os.getenv("SB_PASSWORD"))
     except Exception as e:
         print(f"❌ [DB] CRITICAL: Erro de conexão: {e}")
         return None
@@ -42,9 +39,6 @@ def verificar_login(email, senha):
             return None
         del usuario['senha_hash']
         return usuario
-    except Exception as e:
-        print(f"❌ [LOGIN] Erro na verificação: {e}")
-        return None
     finally:
         if conn: conn.close()
 
@@ -83,7 +77,6 @@ def get_dashboard_data(user_id):
         if conn: conn.close()
 
 def get_metricas_gerais_data(user_id):
-    """Busca dados para a aba principal 'Consumo por Tempo' de Métricas."""
     conn = get_db_connection()
     if not conn: return {"error": "Falha na conexão"}
     try:
@@ -102,6 +95,28 @@ def get_metricas_gerais_data(user_id):
     finally:
         if conn: conn.close()
 
+def get_user_devices(user_id):
+    conn = get_db_connection()
+    if not conn: return {"error": "Falha na conexão"}
+    try:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("SELECT id, nome FROM dispositivos WHERE user_id = %s ORDER BY nome;", (user_id,))
+        return cur.fetchall()
+    finally:
+        if conn: conn.close()
+
+def get_device_specific_data(user_id, device_id):
+    conn = get_db_connection()
+    if not conn: return {"error": "Falha na conexão"}
+    try:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("SELECT COALESCE(kwh_total, 0) as kwh FROM resumos WHERE user_id = %s AND device_id = %s AND periodo_tipo = 'hora' AND periodo_inicio >= NOW() - INTERVAL '24 hours' ORDER BY periodo_inicio LIMIT 24;", (user_id, device_id)); hourly24_raw = [r['kwh'] for r in cur.fetchall()]; hourly24 = ([0.0] * (24 - len(hourly24_raw))) + hourly24_raw
+        cur.execute("SELECT EXTRACT(ISODOW FROM periodo_inicio) as dia_semana, COALESCE(SUM(kwh_total), 0) as kwh FROM resumos WHERE user_id = %s AND device_id = %s AND periodo_tipo = 'dia' AND periodo_inicio >= date_trunc('week', NOW()) GROUP BY dia_semana ORDER BY dia_semana;", (user_id, device_id)); dados_semana_raw = {int(r['dia_semana']): float(r['kwh']) for r in cur.fetchall()}; week_seg_a_dom = [dados_semana_raw.get(i, 0.0) for i in range(1, 8)]; week = [week_seg_a_dom.pop()] + week_seg_a_dom
+        cur.close(); return { "hourly24": hourly24, "week": week }
+    except Exception as e: return {"error": str(e)}
+    finally:
+        if conn: conn.close()
+        
 def get_simulator_data(user_id):
     conn = get_db_connection()
     if not conn: return {"error": "Falha na conexão"}
@@ -113,19 +128,62 @@ def get_simulator_data(user_id):
         if conn: conn.close()
 
 def get_previsoes_data(user_id):
-    # Para a previsão ser ~R$350, a média de kWh deve ser 350 / 0.92 = 380.4 kWh
-    media_mensal_kwh = 380.4 
+    media_mensal_kwh = 380.4
     previsoes = []
     hoje = datetime.now()
     for i in range(7):
         mes, ano = (hoje.month + i - 1) % 12 + 1, hoje.year + (hoje.month + i - 1) // 12
         mes_nome = calendar.month_abbr[mes].capitalize()
-        consumo_previsto = media_mensal_kwh * (1 + (random.random() * 0.1 - 0.05)) # Variação de +/- 5%
-        previsoes.append({
-            "mes": mes_nome, "consumo": round(consumo_previsto, 1), "custo": round(consumo_previsto * TARIFA_SP_KWH, 2),
-            "fatores": ["Baseado na média histórica"], "confianca": 95
-        })
+        consumo_previsto = media_mensal_kwh * (1 + (random.random() * 0.1 - 0.05))
+        previsoes.append({ "mes": mes_nome, "consumo": round(consumo_previsto, 1), "custo": round(consumo_previsto * TARIFA_SP_KWH, 2), "fatores": ["Baseado na média histórica"], "confianca": 95 })
     return previsoes
+
+def get_user_settings(user_id):
+    conn = get_db_connection()
+    if not conn: return {"error": "Falha na conexão"}
+    try:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("SELECT nome_completo, email, limite_conta FROM usuarios WHERE id = %s;", (user_id,))
+        return cur.fetchone()
+    finally:
+        if conn: conn.close()
+
+def update_user_settings(user_id, data):
+    conn = get_db_connection()
+    if not conn: return {"error": "Falha na conexão"}
+    try:
+        cur = conn.cursor()
+        nome = data.get('perfil', {}).get('nome')
+        email = data.get('perfil', {}).get('email')
+        limite_conta = data.get('limites', {}).get('limiteMensal')
+        cur.execute("UPDATE usuarios SET nome_completo = %s, email = %s, limite_conta = %s, updated_at = NOW() WHERE id = %s;", (nome, email, limite_conta, user_id))
+        conn.commit(); return {"message": "Configurações salvas com sucesso!"}
+    except Exception as e:
+        conn.rollback(); print(f"❌ [SETTINGS] Erro ao salvar: {e}"); return {"error": str(e)}
+    finally:
+        if conn: conn.close()
+        
+def get_relatorio_data(user_id, start_date, end_date, device_id):
+    conn = get_db_connection()
+    if not conn: return {"error": "Falha na conexão"}
+    try:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        query = "SELECT d.nome as dispositivo_nome, SUM(r.kwh_total) as total_kwh FROM resumos r JOIN dispositivos d ON r.device_id = d.id WHERE r.user_id = %s AND r.periodo_tipo = 'dia' AND r.periodo_inicio BETWEEN %s AND %s"
+        params = [user_id, start_date, end_date]
+        if device_id and device_id != 'todos':
+            query += " AND d.id = %s"
+            params.append(device_id)
+        query += " GROUP BY d.nome ORDER BY SUM(r.kwh_total) DESC;"
+        cur.execute(query, tuple(params))
+        detalhes = cur.fetchall()
+        cur.close()
+        total_kwh = sum(float(item['total_kwh']) for item in detalhes)
+        detalhes_com_custo = [{"dispositivo": item['dispositivo_nome'], "kwh": float(item['total_kwh']), "custo": float(item['total_kwh']) * TARIFA_SP_KWH} for item in detalhes]
+        return {"periodo": {"inicio": start_date, "fim": end_date}, "total_kwh": total_kwh, "custo_total": total_kwh * TARIFA_SP_KWH, "detalhes_por_dispositivo": detalhes_com_custo}
+    except Exception as e:
+        print(f"❌ [RELATÓRIO] Erro ao buscar dados: {e}"); return {"error": str(e)}
+    finally:
+        if conn: conn.close()
 
 # ===================================================================
 #                           ROTAS (ENDPOINTS)
@@ -147,6 +205,10 @@ def api_dashboard_data():
 def api_metricas_gerais():
     user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_metricas_gerais_data(user_id_fixo)
     return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
+@app.route("/api/metricas-data/device/<uuid:device_id>", methods=['GET'])
+def api_metricas_data_por_dispositivo(device_id):
+    user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_device_specific_data(user_id_fixo, str(device_id))
+    return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
 @app.route("/api/simulator-data", methods=['GET'])
 def api_simulator_data():
     user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_simulator_data(user_id_fixo)
@@ -157,6 +219,25 @@ def api_config_constants():
 @app.route("/api/previsoes-data", methods=['GET'])
 def api_previsoes_data():
     user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_previsoes_data(user_id_fixo)
+    return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
+@app.route("/api/user-devices", methods=['GET'])
+def api_user_devices():
+    user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_user_devices(user_id_fixo)
+    return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
+@app.route("/api/user-settings", methods=['GET'])
+def api_get_settings():
+    user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = get_user_settings(user_id_fixo)
+    return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
+@app.route("/api/user-settings", methods=['POST'])
+def api_save_settings():
+    user_id_fixo = "272c506a-e869-463c-b552-475009232001"; data = request.get_json()
+    resultado = update_user_settings(user_id_fixo, data)
+    return jsonify(resultado) if "error" not in resultado else (jsonify(resultado), 500)
+@app.route("/api/relatorio-data", methods=['POST'])
+def api_relatorio_data():
+    user_id_fixo = "272c506a-e869-463c-b552-475009232001"
+    filtros = request.get_json()
+    data = get_relatorio_data(user_id_fixo, filtros.get('startDate'), filtros.get('endDate'), filtros.get('deviceId'))
     return jsonify(data) if data and "error" not in data else (jsonify(data), 500)
 
 # --- EXECUÇÃO DO SERVIDOR ---
