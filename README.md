@@ -4,7 +4,7 @@
 
 ## 📜 Visão Geral do Projeto
 
-O objetivo do EnergyControl Pro é fornecer aos usuários uma visão clara e detalhada sobre seus hábitos de consumo de energia, permitindo-lhes tomar decisões mais inteligentes para economizar na conta de luz e reduzir seu impacto ambiental. A plataforma transforma dados brutos de consumo em insights visuais e acionáveis.
+O objetivo do Revolts Pro é fornecer aos usuários uma visão clara e detalhada sobre seus hábitos de consumo de energia, permitindo-lhes tomar decisões mais inteligentes para economizar na conta de luz e reduzir seu impacto ambiental. A plataforma transforma dados brutos de consumo em insights visuais e acionáveis.
 
 ## ✨ Funcionalidades Principais
 
